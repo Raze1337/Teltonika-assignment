@@ -39,26 +39,28 @@ public class Application
     
     public static void DataHandler(String input)
     {
-        String data[] = input.split("(?<=\\G.{2})");
-        
-        int value[] = new int[data.length];
-        
-        for(int i = 0; i < data.length; i++)
+        byte[] dataValues = hexStringToByteArray(input);
+    }
+    
+    public static byte[] hexStringToByteArray(String s) 
+    {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) 
         {
-            value[i] = Integer.parseInt(data[i],16);
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
         }
-        
-        //timestamp
-        //Calendar c=Calendar.getInstance();
-        //c.setTimeInMillis(epoch);
-        
-        
+        return data;
     }
     
     public static void CommandHandler(String input)
     {
         
         switch(input){
+            default:
+                System.out.println("Unknown command");
+                break;
             case ".exit":
                 System.out.println("Exit command executed");
                 break;
